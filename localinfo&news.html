@@ -1,0 +1,116 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<noscript>
+<meta http-equiv="refresh" content="3600">
+</noscript>
+<title>天気&情報</title>
+<style type="text/css">
+<!--
+body {font-family: Verdana, Roboto, HiraKakuProN, "Hiragino Kaku Gothic ProN", "Meiryo UI", "Noto Sans JP", YuGothic, sans-serif;}
+body {background-color: #33464E; color: #FFFFE1;}
+-->
+</style>
+</head>
+<body topmargin="0" bottommargin ="0" leftmargin="0" rightmargin="0">
+<script type="text/javascript">
+window.onresize = function() {location.reload();}
+var wiw = window.innerWidth; var wih = window.innerHeight;
+var ibw = wiw * 80 / 100; var nnw = wiw - ibw;
+var wmh = Math.min(360, wih * 25 / 100); var ibh = wih - wmh;
+var vpw = wmh * 16 / 9;
+var wmr = ibw - vpw; rpw = wmr / 2; mpw = wmr / 2;
+var xx = Math.floor(Math.random() * 1000); var mm = 3;
+var vvv = 0; vurl = new Array('https://www3.nhk.or.jp/news/weather/weather_movie.html', 'https://www3.nhk.or.jp/news/realtime-parts/player-live.html');
+if (mpw / wmh > 2) {rpw = ibw / 3; mpw = ibw / 3; vpw = ibw - rpw - mpw;}
+if (mpw / wmh < 4 / 3) {mm = 2; rpw = ibw / 2; vpw = ibw - rpw;}
+var opy = ['', 'info.bousai'];
+var aly = [['news', 'tenki', 'weather', '報道', 'ニュース', '天気'], ['bousai', 'radar', 'raincloud', 'rain', '防災', 'レーダー', '雨雲']];
+var usearch = decodeURI(location.search).replace('?', '').toLowerCase(); var page = opy[0];
+for (i = 0; i < opy.length; i++) {
+for (j = 0; j < aly[i].length; j++) {
+if (usearch.match(aly[i][j].toLowerCase())) {page = opy[i];}
+}}
+var opx = ['gray', 'dark', 'thunder', 'forecast', 'thru', 'dev'];
+alx = [['白黒', 'モノクロ'], ['暗色'] ,['lightning', '落雷'], ['予想', '予報', '予測'] ,['through', '字消', '字無', '透明'] ,['developer', '開発']];
+opz = ['all', 'ext', 'osa', 'tyo', 'ykk'];
+alz = [['all_info', '全部'], ['ext_info', '拡大', '拡張'], ['osaka', '大阪'], ['tokyo', 'tky', '東京'], ['yokkaichi', 'yokk', 'yok', '四日市']];
+var area = ['0', 'auto', '1', '2', '3'];
+var range = ['0', '0', '0', '0', '0'];
+var size = ['auto', 'auto', 'auto', 'auto', 'auto'];
+var position = ['auto', 'auto', 'auto', 'auto', 'auto'];
+var visibility = ['1', '1', '0', '0', '0'];
+var uhash = decodeURI(location.hash).toLowerCase(); var uparam = '';
+for (i = 0; i < opx.length; i++) {
+for (j = 0; j < alx[i].length; j++) {
+uhash = uhash.replaceAll(alx[i][j].toLowerCase(), opx[i]);
+}}
+for (i = 0; i < opz.length; i++) {
+for (j = 0; j < alz[i].length; j++) {
+uhash = uhash.replaceAll(alz[i][j].toLowerCase(), opz[i]);
+}}
+for (i = 0; i < opz.length; i++) {
+if (uhash.includes(opz[i])) {
+uparam = '?' + opz[i] + '&a=' + area[i] + '&r=' + range[i] + '&s=' + size[i] + '&p=' + position[i] + '&v=' + visibility[i];
+uhash = uhash.replaceAll(opz[i], ''); if (uhash == '#') {uhash = '#main'}
+}}
+if (page != '') {if (uparam) {location.href = page + '.html' + uparam + uhash;} else {location.href = page + '.html#main' + uhash.substring(1);}}
+function newmovie() {
+xx = Math.floor(Math.random() * 1000);
+today = new Date();
+document.all.newmovie.src = vurl[vvv] + '?' + xx;
+setTimeout('newmovie()', 1000 * 7200);
+}
+document.write('<table width="100%" height="100%" cellpadding="0" cellspacing="0"><tr><td>');
+document.write('<table width="100%" height="100%" cellpadding="0" cellspacing="0"><tr height="' + ibh + 'px"><td colspan="' + mm + '" width="' + ibw + 'px">');
+document.write('<iframe width="100%" height="100%" frameborder="0" src="info.bousai.html' + uparam + uhash + '"></iframe>');
+document.write('</td></tr><tr height="' + wmh + 'px">');
+function newgraph() {
+xx = Math.floor(Math.random() * 1000);
+document.all.rainpage.src = 'https://www3.nhk.or.jp/weather/rader/tenki_now.jpg' + '?' + xx;
+setTimeout('newgraph()', 1000 * 3600);
+}
+document.write('<td title="クリックでNHKニュース" onclick="vvv = 1; document.all.newmovie.src = vurl[vvv] + \'?\' + xx;" ondblclick="vvv = 1; window.open(vurl[vvv]);"><img id="rainpage" width="' + rpw + 'px" height="' + wmh + 'px" border="0"></td>');
+document.write('<td><iframe id="newmovie" width="' + vpw + 'px" height="' + wmh + 'px" frameborder="0"></iframe></td>');
+function newmap() {
+xx = Math.floor(Math.random() * 1000);
+today = new Date();
+document.all.mappage.src = 'https://www3.nhk.or.jp/weather/rader/tenki_yoso.jpg' + '?' + xx;
+setTimeout('newmap()', 1000 * 7200);
+}
+if (mm == 3) {document.write('<td title="クリックでNHK天気予報" onclick="vvv = 0; document.all.newmovie.src = vurl[vvv] + \'?\' + xx;" ondblclick="vvv = 0; window.open(vurl[vvv]);"><img id="mappage" width="' + mpw + 'px" height="' + wmh + 'px" border="0"></td>');}
+document.write('</tr></table></td><td width="' + nnw + 'px" rowspan="2">');
+document.write('<table width="100%" height="100%" cellpadding="0" cellspacing="0"><tr>');
+var interval = 300; var nurl;
+var catlist = 'index,cat1_00,cat2_00,cat3_00,index,cat4_00,cat5_00,cat6_00,index,cat7_00,cat8_00,cat9_00';
+catadr = catlist.split(",");
+function newcat() {
+xx = Math.floor(Math.random() * 1000);
+nurl = 'https://k.nhk.jp/knews/new.html';
+if (interval != 0) {
+today = new Date();
+dd = Math.floor(Math.abs((today.getHours() * 60 + today.getMinutes()) * 60 + today.getSeconds()) / interval) % (catadr.length * 2);
+if (dd % 2 != 0) {nurl = nurl.replace('knews/new', 'knews/' + catadr[Math.floor(dd / 2)]);}
+}
+document.all.newspage.src = nurl + '?' + xx;
+setTimeout('newcat()',1000 * interval);
+}
+document.write('<td bgcolor="#FFFFE1"><iframe id="newspage" width="100%" height="100%" frameborder="0"></iframe></td>');
+newmovie(); newgraph(); newcat(); if (mm == 3) {newmap();}
+document.write('</tr></table></td></tr></table>');
+</script>
+<noscript>
+<table width="100%" height="100%" cellpadding="0" cellspacing="0"><tr><td width="80%">
+<table width="100%" height="100%" cellpadding="0" cellspacing="0"><tr height="75%">
+<td colspan="2" width="100%" height="100%"><iframe width="100%" height="100%" frameborder="0" src="info.bousai.html"></iframe></td>
+</tr><tr height="25%">
+<td width="50%" height="200vh" title="最新天気図"><img width="100%" height="100%" border="0" src="https://www3.nhk.or.jp/weather/rader/tenki_now.jpg"></td>
+<td width="50%" height="200vh" title="予想天気図"><img width="100%" height="100%" border="0" src="https://www3.nhk.or.jp/weather/rader/tenki_yoso.jpg"></td>
+</tr></table>
+</td><td width="20%">
+<table width="100%" height="100%" cellpadding="0" cellspacing="0"><tr>
+<td bgcolor="#FFFFE1"><iframe width="100%" height="100%" frameborder="0" src="https://k.nhk.jp/knews/new.html"></iframe></td>
+</tr></table></td></tr></table>
+</noscript>
+</body>
+</html>
